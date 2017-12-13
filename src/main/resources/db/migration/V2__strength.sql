@@ -1,0 +1,12 @@
+CREATE TABLE STRENGTH (
+	id SERIAL,
+	name varchar(255) not null
+);
+
+CREATE SEQUENCE strength_sequence start WITH 1 INCREMENT BY 1;
+
+INSERT INTO STRENGTH (name) VALUES ('Fist');
+INSERT INTO STRENGTH (name) VALUES ('Leg');
+INSERT INTO STRENGTH (name) VALUES ('Weapon');
+INSERT INTO STRENGTH (name) VALUES ('Spirit');
+INSERT INTO STRENGTH (name) VALUES ('Projection');
