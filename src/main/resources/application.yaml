@@ -2,3 +2,7 @@ management:
   endpoints:
     web:
       expose: flyway
+spring:
+  data:
+    rest:
+      basePath: /api
