@@ -6,3 +6,8 @@ spring:
   data:
     rest:
       basePath: /api
+
+cloudinary:
+  cloudName: ksams
+  apiSecret: VuuLhGtP9qGbzz0mZqZjRsfccQc
+  apiKey: 956677279662446
