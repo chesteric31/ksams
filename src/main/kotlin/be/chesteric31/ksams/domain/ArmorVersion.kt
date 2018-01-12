@@ -10,8 +10,13 @@ data class ArmorVersion(
     @GeneratedValue(generator = "armor_version_generator")
     val id: Long = 0,
     val name: String = "",
-    val image: String= "",
+    val image: String= "") {
+
     @OneToOne
     @JoinColumn(name = "fk_armor")
-    val armor: Armor
-)
+    lateinit var armor: Armor
+
+    constructor(armor: Armor) : this(0, "", "") {
+        this.armor = armor
+    }
+}

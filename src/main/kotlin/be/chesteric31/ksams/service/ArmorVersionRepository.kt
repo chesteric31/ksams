@@ -13,4 +13,5 @@ interface ArmorVersionRepository : PagingAndSortingRepository<ArmorVersion, Long
     fun findByNameAllIgnoringCase(@Param("name") name: String, pageable: Pageable): Page<ArmorVersion>
 
     fun findByName(@Param("name") name: String): ArmorVersion
+
 }
