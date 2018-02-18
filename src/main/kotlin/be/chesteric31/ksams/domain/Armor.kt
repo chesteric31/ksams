@@ -15,6 +15,12 @@ data class Armor(
     @JoinColumn(name = "fk_category")
     lateinit var category: ArmorCategory
 
+    @ManyToMany
+    @JoinTable(name = "ARMOR_STRENGTH",
+            joinColumns = arrayOf(JoinColumn(name = "fk_armor")),
+            inverseJoinColumns = arrayOf(JoinColumn(name = "fk_strength")))
+    lateinit var strengths: List<Strength>
+
     constructor(category: ArmorCategory) : this(0, "") {
         this.category = category
     }
