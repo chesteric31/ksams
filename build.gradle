@@ -1,7 +1,7 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.10'
-		springBootVersion = '2.0.0.M7'
+		kotlinVersion = '1.2.21'
+		springBootVersion = '2.0.1.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -57,3 +57,7 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')
 }
+
+//bootRun {
+//       systemProperty 'spring.profiles.active', System.properties['spring.profiles.active']
+//    }

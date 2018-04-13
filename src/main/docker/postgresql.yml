@@ -1,0 +1,10 @@
+version: '2'
+services:
+    ksams-postgresql:
+        image: postgres:9.6.5
+        environment:
+            - POSTGRES_DB=dev
+            - POSTGRES_USER=eric
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432
