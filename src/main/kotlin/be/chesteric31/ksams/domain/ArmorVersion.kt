@@ -12,7 +12,7 @@ data class ArmorVersion(
     val name: String = "",
     val image: String= "") {
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_armor")
     lateinit var armor: Armor
 

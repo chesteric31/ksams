@@ -21,6 +21,9 @@ data class Armor(
             inverseJoinColumns = arrayOf(JoinColumn(name = "fk_strength")))
     lateinit var strengths: List<Strength>
 
+    @OneToMany(mappedBy = "armor")
+    lateinit var versions: List<ArmorVersion>
+
     constructor(category: ArmorCategory) : this(0, "") {
         this.category = category
     }

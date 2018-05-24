@@ -11,5 +11,8 @@ spring:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
+  data:
+    rest:
+      basePath: /api
 server:
   port: 8081
