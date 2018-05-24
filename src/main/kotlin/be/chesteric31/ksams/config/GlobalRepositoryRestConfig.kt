@@ -9,7 +9,7 @@ class GlobalRepositoryRestConfig : RepositoryRestConfigurerAdapter() {
 
     override fun configureRepositoryRestConfiguration(config: RepositoryRestConfiguration?) {
         config!!.corsRegistry
-                .addMapping("/api/*")
+                .addMapping("/api/**")
                 .allowedOrigins("*")
     }
 
