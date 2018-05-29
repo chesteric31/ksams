@@ -1,0 +1,66 @@
+@startuml
+' uncomment the line below if you're using computer with a retina display
+' skinparam dpi 300
+!define Table(name, desc) class name as "desc" << (T,#FFAAAA) >>
+' we use bold for primary key
+' green color for unique
+' and underscore for not_null
+!define primary_key(x) <b>x</b>
+!define unique(x) <color:green>x</color>
+!define foreign_key(x) <u>x</u>
+' other tags available:
+' <i></i>
+' <back:COLOR></color>, where color is a color name or html color code
+' (#FFAACC)
+' see: http://plantuml.com/classes.html#More
+hide methods
+hide stereotypes
+
+Table(ARMOR_CATEGORY, "ARMOR_CATEGORY") {
+primary_key(id) SERIAL
+name VARCHAR[255]
+}
+
+Table(ARMOR, "ARMOR") {
+primary_key(id) SERIAL
+name VARCHAR[255]
+foreign_key(fk_category) SERIAL
+}
+
+Table(ARMOR_VERSION, "ARMOR_VERSION") {
+primary_key(id) SERIAL
+name VARCHAR[255]
+image VARCHAR[255]
+foreign_key(fk_armor) SERIAL
+}
+
+Table(STRENGTH, "STRENGTH") {
+primary_key(id) SERIAL
+name VARCHAR[255]
+}
+
+Table(ARMOR_STRENGTH, "ARMOR_STRENGTH") {
+primary_key(id) SERIAL
+value INTEGER
+foreign_key(fk_armor) SERIAL
+foreign_key(fk_strength) SERIAL
+}
+
+Table(ARMOR_VERSION_ATTACK, "ARMOR_VERSION_ATTACK") {
+primary_key(id) SERIAL
+name VARCHAR[255]
+foreign_key(fk_armor_version) SERIAL
+}
+
+' relationships
+' one-to-one relationship
+ARMOR -- ARMOR_CATEGORY : ""
+' one-to-one relationship
+ARMOR_VERSION -- ARMOR : ""
+' one-to-one relationship
+ARMOR_STRENGTH --> ARMOR : ""
+' one-to-one relationship
+ARMOR_STRENGTH --> STRENGTH : ""
+' one-to-many relationship
+ARMOR_VERSION --> ARMOR_VERSION_ATTACK
+@enduml
