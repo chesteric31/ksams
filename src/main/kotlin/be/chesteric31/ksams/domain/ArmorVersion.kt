@@ -16,6 +16,9 @@ data class ArmorVersion(
     @JoinColumn(name = "fk_armor")
     lateinit var armor: Armor
 
+    @OneToMany(mappedBy = "version")
+    lateinit var attacks: List<ArmorVersionAttack>
+
     constructor(armor: Armor) : this(0, "", "") {
         this.armor = armor
     }
