@@ -11,6 +11,7 @@ class GlobalRepositoryRestConfig : RepositoryRestConfigurerAdapter() {
         config!!.corsRegistry
                 .addMapping("/api/**")
                 .allowedOrigins("*")
+                .allowedMethods("*")
     }
 
 }
