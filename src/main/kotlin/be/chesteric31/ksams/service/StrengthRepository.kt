@@ -1,6 +1,5 @@
 package be.chesteric31.ksams.service
 
-import be.chesteric31.ksams.domain.ArmorCategory
 import be.chesteric31.ksams.domain.Strength
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable

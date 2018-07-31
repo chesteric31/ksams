@@ -12,11 +12,10 @@ import org.springframework.web.multipart.MultipartFile
 import java.net.URI
 
 @RestController
-@RequestMapping("/api/armorVersions")
-class ArmorVersionController(@Autowired
-                                        val repository: ArmorVersionRepository,
-                                        @Autowired val armorRepository: ArmorRepository,
-                                        @Autowired val cloudinary: Cloudinary) {
+@RequestMapping("/api/v2/versions")
+class ArmorVersionController(@Autowired val repository: ArmorVersionRepository,
+                             @Autowired val armorRepository: ArmorRepository,
+                             @Autowired val cloudinary: Cloudinary) {
 
     @GetMapping(value = ["/upload"])
     @ResponseBody
@@ -41,4 +40,8 @@ class ArmorVersionController(@Autowired
             else -> return ResponseEntity.badRequest().build()
         }
     }
+
+    @GetMapping(value = ["/"])
+    @ResponseBody
+    fun getAll() = ResponseEntity.ok(repository.findAll())
 }
