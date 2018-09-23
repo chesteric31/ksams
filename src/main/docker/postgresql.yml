@@ -1,4 +1,4 @@
-version: '2'
+    version: '2'
 services:
     ksams-postgresql:
         image: postgres:9.6.5
