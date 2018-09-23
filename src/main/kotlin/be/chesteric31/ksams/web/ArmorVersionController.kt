@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 
 @RestController
@@ -25,7 +26,7 @@ class ArmorVersionController(@Autowired val repository: ArmorVersionRepository,
     @ResponseBody
     fun save(@RequestParam("armorName") armorName: String,
              @RequestParam("armorVersionName") armorVersionName: String,
-             @RequestParam("image") image: MultipartFile) : ResponseEntity<String> {
+             @RequestParam("image") image: MultipartFile): ResponseEntity<String> {
         when {
             !image.isEmpty -> {
                 val uploadResult = cloudinary.uploader().upload(image.bytes, ObjectUtils.emptyMap())
@@ -44,4 +45,26 @@ class ArmorVersionController(@Autowired val repository: ArmorVersionRepository,
     @GetMapping(value = ["/"])
     @ResponseBody
     fun getAll() = ResponseEntity.ok(repository.findAll())
+
+    @PostMapping(value = ["/"])
+    @ResponseBody
+    fun save(@RequestBody armorVersion: ArmorVersion): ResponseEntity<ArmorVersion> {
+        val armor = armorRepository.findById(armorVersion.armor.id)
+        if (armor.isPresent) {
+            armorVersion.armor = armor.get()
+        } else {
+            throw IllegalStateException("Armor ${armorVersion.armor.id} is not known")
+        }
+        val savedVersion = repository.save(armorVersion)
+        if (armorVersion.id != null) {
+            return ResponseEntity.ok(savedVersion)
+        }
+        val location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedVersion.id)
+                .toUri()
+        return ResponseEntity.created(location).build()
+    }
+
 }
