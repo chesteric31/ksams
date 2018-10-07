@@ -26,7 +26,7 @@ class ArmorController(
         if (category.isPresent) {
             armor.category = category.get()
         } else {
-            throw IllegalStateException("Category ${armor.category.id} is not known")
+            throw IllegalStateException("Category ${armor.category.id} is unknown")
         }
         val savedArmor = repository.save(armor)
         if (armor.id != null) {
