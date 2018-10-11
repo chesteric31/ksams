@@ -4,6 +4,7 @@ import be.chesteric31.ksams.domain.ArmorVersion
 import be.chesteric31.ksams.service.ArmorRepository
 import be.chesteric31.ksams.service.ArmorVersionRepository
 import com.cloudinary.Cloudinary
+import com.cloudinary.Transformation
 import com.cloudinary.utils.ObjectUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -42,11 +43,29 @@ class ArmorVersionController(@Autowired val repository: ArmorVersionRepository,
         }
     }
 
-    @GetMapping(value = ["/"])
+    @GetMapping
     @ResponseBody
-    fun getAll() = ResponseEntity.ok(repository.findAll())
+    fun getAll(@RequestParam("scaleHeight") scaleHeight: String?, @RequestParam("scaleWidth") scaleWidth: String?): ResponseEntity<MutableList<ArmorVersion>> {
+        val all = repository.findAll()
+        if (scaleHeight != null && scaleWidth != null) {
+            all.forEach {
+                it.image = scaleImage(it.image, scaleHeight, scaleWidth)
+            }
+        }
+        return ResponseEntity.ok(all)
+    }
 
-    @PostMapping(value = ["/"])
+    private fun scaleImage(image: String, scaleHeight: String, scaleWidth: String): String {
+        val fileName = image.substring(image.lastIndexOf("/") + 1, image.length)
+        //imageTag("audugxb5exmdlcksf7bm.png");
+        return cloudinary
+                .url()
+                .transformation(Transformation<Transformation<out Transformation<*>>?>().height(scaleHeight)!!.width(scaleWidth).crop("thumb"))
+                .secure(true)
+                .generate(fileName)
+    }
+
+    @PostMapping
     @ResponseBody
     fun save(@RequestBody armorVersion: ArmorVersion): ResponseEntity<ArmorVersion> {
         val armor = armorRepository.findById(armorVersion.armor.id)
