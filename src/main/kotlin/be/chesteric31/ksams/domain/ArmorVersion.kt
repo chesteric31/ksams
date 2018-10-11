@@ -7,11 +7,11 @@ import javax.persistence.*
 data class ArmorVersion(
 
         @Id
-    @SequenceGenerator(name = "armor_version_generator", sequenceName = "armor_version_sequence", allocationSize = 1)
-    @GeneratedValue(generator = "armor_version_generator")
-    val id: Long = 0,
+        @SequenceGenerator(name = "armor_version_generator", sequenceName = "armor_version_sequence", allocationSize = 1)
+        @GeneratedValue(generator = "armor_version_generator")
+        val id: Long = 0,
         val name: String = "",
-        var image: String= "") {
+        var image: String = "") {
 
     @ManyToOne
     @JoinColumn(name = "fk_armor")
@@ -20,6 +20,9 @@ data class ArmorVersion(
 
     @OneToMany(mappedBy = "version")
     var attacks: List<ArmorVersionAttack> = ArrayList()
+
+    @Transient
+    lateinit var thumb: String
 
     constructor(armor: Armor) : this(0, "", "") {
         this.armor = armor

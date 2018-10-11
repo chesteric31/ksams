@@ -49,7 +49,7 @@ class ArmorVersionController(@Autowired val repository: ArmorVersionRepository,
         val all = repository.findAll()
         if (scaleHeight != null && scaleWidth != null) {
             all.forEach {
-                it.image = scaleImage(it.image, scaleHeight, scaleWidth)
+                it.thumb = scaleImage(it.image, scaleHeight, scaleWidth)
             }
         }
         return ResponseEntity.ok(all)
