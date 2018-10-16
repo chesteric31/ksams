@@ -1,8 +1,8 @@
 package be.chesteric31.ksams.web
 
 import be.chesteric31.ksams.domain.Armor
-import be.chesteric31.ksams.service.ArmorCategoryRepository
 import be.chesteric31.ksams.service.ArmorRepository
+import be.chesteric31.ksams.service.ArmorService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 @RequestMapping("/api/v2/armors")
 class ArmorController(
         @Autowired val repository : ArmorRepository,
-        @Autowired val categoryRepository: ArmorCategoryRepository) {
+        @Autowired val service: ArmorService) {
 
     @GetMapping(value = ["/"])
     @ResponseBody
@@ -21,14 +21,7 @@ class ArmorController(
     @PostMapping(value = ["/"])
     @ResponseBody
     fun save(@RequestBody armor: Armor): ResponseEntity<Armor> {
-        val categoryId = armor.category.id
-        val category = categoryRepository.findById(categoryId)
-        if (category.isPresent) {
-            armor.category = category.get()
-        } else {
-            throw IllegalStateException("Category ${armor.category.id} is unknown")
-        }
-        val savedArmor = repository.save(armor)
+        val savedArmor = service.save(armor)
         if (armor.id != null) {
             return ResponseEntity.ok(savedArmor)
         }
