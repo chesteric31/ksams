@@ -1,5 +1,6 @@
 package be.chesteric31.ksams.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -14,6 +15,7 @@ data class ArmorStrength(
 
     @ManyToOne
     @JoinColumn(name = "fk_armor")
+    @JsonIgnore
     lateinit var armor: Armor
 
     @ManyToOne

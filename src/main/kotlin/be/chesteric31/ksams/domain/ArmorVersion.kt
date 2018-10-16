@@ -15,14 +15,14 @@ data class ArmorVersion(
 
     @ManyToOne
     @JoinColumn(name = "fk_armor")
-    @JsonIgnore
     lateinit var armor: Armor
 
     @OneToMany(mappedBy = "version")
+    @JsonIgnore
     var attacks: List<ArmorVersionAttack> = ArrayList()
 
     @Transient
-    lateinit var thumb: String
+    var thumb: String = ""
 
     constructor(armor: Armor) : this(0, "", "") {
         this.armor = armor
