@@ -45,12 +45,11 @@ class ArmorVersionController(@Autowired val repository: ArmorVersionRepository,
 
     @GetMapping
     @ResponseBody
-    fun getAll(@RequestParam("scaleHeight") scaleHeight: String?, @RequestParam("scaleWidth") scaleWidth: String?): ResponseEntity<MutableList<ArmorVersion>> {
+    fun getAll(@RequestParam("scaleHeight", required = false, defaultValue = "150") scaleHeight: String,
+               @RequestParam("scaleWidth", required = false, defaultValue = "150") scaleWidth: String): ResponseEntity<MutableList<ArmorVersion>> {
         val all = repository.findAll()
-        if (scaleHeight != null && scaleWidth != null) {
-            all.forEach {
-                it.thumb = scaleImage(it.image, scaleHeight, scaleWidth)
-            }
+        all.forEach {
+            it.thumb = scaleImage(it.image, scaleHeight, scaleWidth)
         }
         return ResponseEntity.ok(all)
     }
