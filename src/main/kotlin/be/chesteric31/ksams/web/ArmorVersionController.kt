@@ -18,9 +18,9 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
 
     @PostMapping("/upload")
     @ResponseBody
-    fun save(@RequestParam("armorName") armorName: String,
-             @RequestParam("armorVersionName") armorVersionName: String,
-             @RequestParam("image") image: MultipartFile): ResponseEntity<String> {
+    fun uploadArmorVersionImage(@RequestParam("armorName") armorName: String,
+                                @RequestParam("armorVersionName") armorVersionName: String,
+                                @RequestParam("image") image: MultipartFile): ResponseEntity<String> {
         when {
             !image.isEmpty -> {
                 return ResponseEntity.created(service.uploadArmorVersionImage(image, armorName, armorVersionName)).build()
@@ -29,16 +29,9 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
         }
     }
 
-    @GetMapping
-    @ResponseBody
-    fun getAll(@RequestParam("scaleHeight", required = false, defaultValue = "150") scaleHeight: String,
-               @RequestParam("scaleWidth", required = false, defaultValue = "150") scaleWidth: String): ResponseEntity<MutableList<ArmorVersion>> {
-        return ResponseEntity.ok(service.buildAllWithImageThumb(scaleHeight, scaleWidth))
-    }
-
     @PostMapping
     @ResponseBody
-    fun save(@RequestBody armorVersion: ArmorVersion): ResponseEntity<ArmorVersion> {
+    fun uploadArmorVersionImage(@RequestBody armorVersion: ArmorVersion): ResponseEntity<ArmorVersion> {
         val savedVersion = service.save(armorVersion)
         if (armorVersion.id != null) {
             return ResponseEntity.ok(savedVersion)

@@ -1,6 +1,5 @@
 package be.chesteric31.ksams.domain
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -17,11 +16,9 @@ data class Armor(
     lateinit var category: ArmorCategory
 
     @OneToMany(mappedBy = "armor")
-    @JsonIgnore
     var strengths: List<ArmorStrength> = ArrayList()
 
     @OneToMany(mappedBy = "armor")
-    @JsonIgnore
     var versions: List<ArmorVersion> = ArrayList()
 
     constructor(category: ArmorCategory) : this(0, "") {

@@ -7,6 +7,5 @@ import java.net.URI
 interface ArmorVersionService {
 
     fun uploadArmorVersionImage(image: MultipartFile, armorName: String, armorVersionName: String): URI
-    fun buildAllWithImageThumb(scaleHeight: String, scaleWidth: String): MutableList<ArmorVersion>
     fun save(armorVersion: ArmorVersion): ArmorVersion
 }
