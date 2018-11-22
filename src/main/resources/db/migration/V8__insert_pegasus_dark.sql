@@ -1,0 +1,2 @@
+INSERT INTO ARMOR_VERSION (name, image, fk_armor) VALUES ('dark', 'https://res.cloudinary.com/ksams/image/upload/v1542880154/pegasus_dark_cjz6cp.jpg', 1);
+INSERT INTO ARMOR_VERSION_ATTACK (name, fk_armor_version) VALUES ('Black Ryu Sei Ken', 2);
