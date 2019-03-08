@@ -4,6 +4,7 @@ import be.chesteric31.ksams.domain.ArmorVersion
 import be.chesteric31.ksams.service.ArmorVersionService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -18,6 +19,7 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
 
     @PostMapping("/upload")
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     fun save(@RequestParam("armorName") armorName: String,
              @RequestParam("armorVersionName") armorVersionName: String,
              @RequestParam("image") image: MultipartFile): ResponseEntity<String> {
@@ -31,6 +33,7 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
 
     @PostMapping
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     fun save(@RequestBody armorVersion: ArmorVersion): ResponseEntity<ArmorVersion> {
         val savedVersion = service.save(armorVersion)
         if (armorVersion.id != null) {

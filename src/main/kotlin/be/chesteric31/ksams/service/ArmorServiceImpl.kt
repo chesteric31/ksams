@@ -23,6 +23,8 @@ class ArmorServiceImpl(@Autowired val repository: ArmorRepository,
 
     override fun findAll() = repository.findAll()
 
+    override fun findById(id: Long) = repository.findById(id)
+
     override fun save(armor: Armor): Armor {
         val categoryId = armor.category.id
         val category = categoryRepository.findById(categoryId)
@@ -33,6 +35,8 @@ class ArmorServiceImpl(@Autowired val repository: ArmorRepository,
         }
         return repository.save(armor)
     }
+
+    override fun delete(armor: Armor) = repository.delete(armor)
 
     private fun scaleImage(image: String, scaleHeight: String, scaleWidth: String): String {
         val fileName = image.substring(image.lastIndexOf("/") + 1, image.length)

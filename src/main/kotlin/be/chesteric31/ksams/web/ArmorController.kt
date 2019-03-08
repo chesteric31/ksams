@@ -5,6 +5,7 @@ import be.chesteric31.ksams.service.ArmorService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
@@ -21,6 +22,7 @@ class ArmorController(@Autowired val service: ArmorService) {
 
     @PostMapping(value = ["/"])
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     fun save(@RequestBody armor: Armor): ResponseEntity<Armor> {
         val savedArmor = service.save(armor)
         if (armor.id != null) {
@@ -32,6 +34,18 @@ class ArmorController(@Autowired val service: ArmorService) {
                 .buildAndExpand(savedArmor.id)
                 .toUri()
         return ResponseEntity.created(location).build()
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    fun delete(@PathVariable id: Long) : ResponseEntity<Any> {
+        val category = service.findById(id)
+        if (!category.isPresent) {
+            return ResponseEntity.notFound().build()
+        }
+        service.delete(category.get())
+        return ResponseEntity.noContent().build()
     }
 
 }
