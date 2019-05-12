@@ -1,10 +1,10 @@
 package be.chesteric31.ksams.web
 
+import com.sun.security.auth.UserPrincipal
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import sun.security.acl.PrincipalImpl
 import java.security.Principal
 import java.util.*
 import javax.servlet.http.HttpServletRequest
@@ -27,7 +27,7 @@ class LoginController {
     @RequestMapping("/user")
     fun user(request: HttpServletRequest): Principal {
         val authToken = request.getHeader("Authorization").substring("Basic".length).trim { it <= ' ' }
-        return PrincipalImpl(String(Base64.getDecoder().decode(authToken)).split(":")[0])
+        return UserPrincipal    (String(Base64.getDecoder().decode(authToken)).split(":")[0])
     }
 
 }
