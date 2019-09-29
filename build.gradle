@@ -27,6 +27,8 @@ apply plugin: 'io.spring.dependency-management'
 group = 'be.chesteric31'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 11
+targetCompatibility = 11
+
 compileKotlin {
 	kotlinOptions.jvmTarget = "11"
 }
