@@ -10,42 +10,72 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse
+import org.springframework.security.web.header.writers.StaticHeadersWriter
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfig : WebSecurityConfigurerAdapter() {
+class SecurityConfig(@Autowired val tokenAuthenticationService: TokenAuthenticationService)
+    : WebSecurityConfigurerAdapter() {
 
     @Autowired
     @Throws(Exception::class)
     fun configureGlobal(auth: AuthenticationManagerBuilder) {
         auth.inMemoryAuthentication()
-                .withUser("user").password(passwordEncoder().encode("user")).roles("USER")
+                .withUser("user")
+                .password(passwordEncoder().encode("user"))
+                .roles("USER")
                 .and()
-                .withUser("admin").password(passwordEncoder().encode("admin")).roles("USER", "ADMIN")
+                .withUser("admin")
+                .password(passwordEncoder().encode("admin"))
+                .roles("USER", "ADMIN")
     }
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
+                .cors()
+                .and()
+                .csrf().ignoringAntMatchers("/api/login").csrfTokenRepository(withHttpOnlyFalse())
+                .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/v2/**")
-                .hasAnyRole("ANONYMOUS", "USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/v2/**")
-                .hasAnyRole("*", "ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/v2/**")
-                .hasAnyRole("*", "ADMIN")
+                .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v2/**").hasAnyRole("ANONYMOUS", "USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/v2/**").hasAnyRole("*", "ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/api/login")
-                .permitAll()
-                .and()
-                .httpBasic()
-                .and()
-                .csrf().disable()
+                .addFilterBefore(
+                        JwtLoginFilter(tokenAuthenticationService, "/api/login", authenticationManager()),
+                        UsernamePasswordAuthenticationFilter::class.java)
+                .addFilterBefore(
+                        JwtAuthenticationFilter(tokenAuthenticationService),
+                        UsernamePasswordAuthenticationFilter::class.java)
+
     }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
+
+    @Bean
+    fun corsConfigurer(): WebMvcConfigurer {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry?) {
+                registry!!
+                        .addMapping("/api/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("*")
+                        .exposedHeaders("authorization", "roles")
+                //.allowCredentials(true)
+            }
+        }
+    }
+
 }
