@@ -4,6 +4,7 @@ import be.chesteric31.ksams.domain.ArmorCategory
 import be.chesteric31.ksams.service.ArmorCategoryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.ok
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -14,15 +15,16 @@ class ArmorCategoryController(@Autowired val service : ArmorCategoryService) {
 
     @GetMapping(value = ["/"])
     @ResponseBody
-    fun getAll() = ResponseEntity.ok(service.findAll())
+    fun getAll(): ResponseEntity<List<ArmorCategory>>? {
+        return ok(service.findAll())
+    }
 
     @PostMapping(value = ["/"])
     @ResponseBody
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     fun save(@RequestBody category: ArmorCategory): ResponseEntity<ArmorCategory> {
         val savedCategory = service.save(category)
         if (category.id != null) {
-            return ResponseEntity.ok(savedCategory)
+            return ok(savedCategory)
         }
         val location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -34,7 +36,7 @@ class ArmorCategoryController(@Autowired val service : ArmorCategoryService) {
 
     @DeleteMapping("/{id}")
     @ResponseBody
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     fun delete(@PathVariable id: Long) : ResponseEntity<Any> {
         val category = service.findById(id)
         if (!category.isPresent) {

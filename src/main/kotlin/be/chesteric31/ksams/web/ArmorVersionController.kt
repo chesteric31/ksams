@@ -19,7 +19,6 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
 
     @PostMapping("/upload")
     @ResponseBody
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     fun save(@RequestParam("armorName") armorName: String,
              @RequestParam("armorVersionName") armorVersionName: String,
              @RequestParam("image") image: MultipartFile): ResponseEntity<String> {
@@ -33,7 +32,6 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
 
     @PostMapping
     @ResponseBody
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     fun save(@RequestBody armorVersion: ArmorVersion): ResponseEntity<ArmorVersion> {
         val savedVersion = service.save(armorVersion)
         if (armorVersion.id != null) {

@@ -2,7 +2,7 @@ package be.chesteric31.ksams.config
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
-import org.springframework.http.HttpMethod
+import org.springframework.http.HttpMethod.*
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -11,12 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse
-import org.springframework.security.web.header.writers.StaticHeadersWriter
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -41,14 +37,14 @@ class SecurityConfig(@Autowired val tokenAuthenticationService: TokenAuthenticat
         http
                 .cors()
                 .and()
-                .csrf().ignoringAntMatchers("/api/login").csrfTokenRepository(withHttpOnlyFalse())
-                .and()
+                .csrf().disable()
+                //.csrf().ignoringAntMatchers("/api/login").csrfTokenRepository(withHttpOnlyFalse()).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v2/**").hasAnyRole("ANONYMOUS", "USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/v2/**").hasAnyRole("*", "ADMIN")
-                .anyRequest().authenticated()
+                .antMatchers(OPTIONS, "/api/**").permitAll()
+                .antMatchers(POST, "/api/login").permitAll()
+                .antMatchers(GET, "/api/v2/**").hasAnyRole("ANONYMOUS", "USER", "ADMIN")
+                .antMatchers(POST, "/api/v2/**").hasRole("ADMIN")
+                .antMatchers(DELETE, "/api/v2/**").hasRole("ADMIN")
                 .and()
                 .addFilterBefore(
                         JwtLoginFilter(tokenAuthenticationService, "/api/login", authenticationManager()),
