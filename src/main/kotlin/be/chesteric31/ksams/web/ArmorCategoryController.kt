@@ -36,7 +36,6 @@ class ArmorCategoryController(@Autowired val service : ArmorCategoryService) {
 
     @DeleteMapping("/{id}")
     @ResponseBody
-    @PreAuthorize("hasRole('ADMIN')")
     fun delete(@PathVariable id: Long) : ResponseEntity<Any> {
         val category = service.findById(id)
         if (!category.isPresent) {
