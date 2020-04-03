@@ -19,6 +19,16 @@ class ArmorCategoryController(@Autowired val service : ArmorCategoryService) {
         return ok(service.findAll())
     }
 
+    @GetMapping(value = ["/{id}"])
+    @ResponseBody
+    fun get(@PathVariable id: Long): ResponseEntity<ArmorCategory>? {
+        val category = service.findById(id)
+        if (!category.isPresent) {
+            return ResponseEntity.notFound().build()
+        }
+        return ok(category.get())
+    }
+
     @PostMapping(value = ["/"])
     @ResponseBody
     fun save(@RequestBody category: ArmorCategory): ResponseEntity<ArmorCategory> {

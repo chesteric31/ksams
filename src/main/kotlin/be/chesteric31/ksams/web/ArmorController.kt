@@ -34,6 +34,16 @@ class ArmorController(@Autowired val service: ArmorService) {
         return ResponseEntity.created(location).build()
     }
 
+    @GetMapping("/{id}")
+    @ResponseBody
+    fun get(@PathVariable id: Long) : ResponseEntity<Any> {
+        val category = service.findById(id)
+        if (!category.isPresent) {
+            return ResponseEntity.notFound().build()
+        }
+        return ok().body(category)
+    }
+
     @DeleteMapping("/{id}")
     @ResponseBody
     fun delete(@PathVariable id: Long) : ResponseEntity<Any> {
