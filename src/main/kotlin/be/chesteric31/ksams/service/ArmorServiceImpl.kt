@@ -15,7 +15,7 @@ class ArmorServiceImpl(@Autowired val repository: ArmorRepository,
         val all = this.findAll()
         all.forEach {
             it.versions.forEach { v ->
-                v.thumb = scaleImage(v.image, scaleHeight, scaleWidth)
+                v.thumb = scaleImage(v.armor.category.name, v.image, scaleHeight, scaleWidth)
             }
         }
         return all
@@ -38,14 +38,14 @@ class ArmorServiceImpl(@Autowired val repository: ArmorRepository,
 
     override fun delete(armor: Armor) = repository.delete(armor)
 
-    private fun scaleImage(image: String, scaleHeight: String, scaleWidth: String): String {
+    private fun scaleImage(categoryName: String, image: String, scaleHeight: String, scaleWidth: String): String {
         val fileName = image.substring(image.lastIndexOf("/") + 1, image.length)
         //imageTag("audugxb5exmdlcksf7bm.png");
         return cloudinary
                 .url()
                 .transformation(Transformation<Transformation<out Transformation<*>>?>().height(scaleHeight)!!.width(scaleWidth).crop("thumb"))
                 .secure(true)
-                .generate(fileName)
+                .generate("/" + categoryName.lowercase() + "/" + fileName)
     }
 
 }
