@@ -45,7 +45,7 @@ class ArmorServiceImpl(@Autowired val repository: ArmorRepository,
                 .url()
                 .transformation(Transformation<Transformation<out Transformation<*>>?>().height(scaleHeight)!!.width(scaleWidth).crop("thumb"))
                 .secure(true)
-                .generate("/" + categoryName.toLowerCase() + "/" + fileName)
+                .generate("/" + categoryName.lowercase() + "/" + fileName)
     }
 
 }
