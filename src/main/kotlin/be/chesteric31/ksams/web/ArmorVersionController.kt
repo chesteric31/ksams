@@ -4,6 +4,8 @@ import be.chesteric31.ksams.domain.ArmorVersion
 import be.chesteric31.ksams.service.ArmorVersionService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.created
+import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -14,7 +16,7 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
 
     @GetMapping(value = ["/upload"])
     @ResponseBody
-    fun provideUploadInfo() = ResponseEntity.ok("You can upload a file by posting to this same URL.")
+    fun provideUploadInfo() = ok("You can upload a file by posting to this same URL.")
 
     @PostMapping("/upload")
     @ResponseBody
@@ -23,7 +25,7 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
              @RequestParam("image") image: MultipartFile): ResponseEntity<String> {
         when {
             !image.isEmpty -> {
-                return ResponseEntity.created(service.uploadArmorVersionImage(image, armorName, armorVersionName)).build()
+                return created(service.uploadArmorVersionImage(image, armorName, armorVersionName)).build()
             }
             else -> return ResponseEntity.badRequest().build()
         }
@@ -32,16 +34,17 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
     @PostMapping
     @ResponseBody
     fun save(@RequestBody armorVersion: ArmorVersion): ResponseEntity<ArmorVersion> {
+        val id = armorVersion.id
         val savedVersion = service.save(armorVersion)
-        if (armorVersion.id != null) {
-            return ResponseEntity.ok(savedVersion)
+        if (id != 0L) {
+            return ok(savedVersion)
         }
         val location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedVersion.id)
                 .toUri()
-        return ResponseEntity.created(location).build()
+        return created(location).build()
     }
 
 }

@@ -4,6 +4,7 @@ import be.chesteric31.ksams.domain.Armor
 import be.chesteric31.ksams.service.ArmorService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.created
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -22,8 +23,9 @@ class ArmorController(@Autowired val service: ArmorService) {
     @PostMapping(value = ["/"])
     @ResponseBody
     fun save(@RequestBody armor: Armor): ResponseEntity<Armor> {
+        val id = armor.id
         val savedArmor = service.save(armor)
-        if (armor.id != null) {
+        if (id != 0L) {
             return ok(savedArmor)
         }
         val location = ServletUriComponentsBuilder
@@ -31,7 +33,7 @@ class ArmorController(@Autowired val service: ArmorService) {
                 .path("/{id}")
                 .buildAndExpand(savedArmor.id)
                 .toUri()
-        return ResponseEntity.created(location).build()
+        return created(location).build()
     }
 
     @GetMapping("/{id}")

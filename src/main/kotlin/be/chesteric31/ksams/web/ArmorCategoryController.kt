@@ -4,6 +4,7 @@ import be.chesteric31.ksams.domain.ArmorCategory
 import be.chesteric31.ksams.service.ArmorCategoryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.created
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -32,8 +33,9 @@ class ArmorCategoryController(@Autowired val service : ArmorCategoryService) {
     @PostMapping(value = ["/"])
     @ResponseBody
     fun save(@RequestBody category: ArmorCategory): ResponseEntity<ArmorCategory> {
+        val id = category.id
         val savedCategory = service.save(category)
-        if (category.id != null) {
+        if (id != 0L) {
             return ok(savedCategory)
         }
         val location = ServletUriComponentsBuilder
@@ -41,7 +43,7 @@ class ArmorCategoryController(@Autowired val service : ArmorCategoryService) {
                 .path("/{id}")
                 .buildAndExpand(savedCategory.id)
                 .toUri()
-        return ResponseEntity.created(location).build()
+        return created(location).build()
     }
 
     @DeleteMapping("/{id}")
