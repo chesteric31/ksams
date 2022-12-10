@@ -61,7 +61,3 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('io.projectreactor:reactor-test')
 }
-
-//bootRun {
-//       systemProperty 'spring.profiles.active', System.properties['spring.profiles.active']
-//    }
