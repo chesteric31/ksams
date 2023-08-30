@@ -1,15 +1,19 @@
 spring:
-  profiles: test
   datasource:
     url: jdbc:postgresql://localhost:5432/test
-    username: postgres
-    password:
-    platform: POSTGRESQL
-#Disabling contextual LOB creation as createClob() method threw error
+    username: test
+    password: p0stgr3s
+  #Disabling contextual LOB creation as createClob() method threw error
   jpa:
     properties:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
+  config:
+    activate:
+      on-profile: test
+  sql:
+    init:
+      platform: POSTGRESQL
 server:
   port: 8081

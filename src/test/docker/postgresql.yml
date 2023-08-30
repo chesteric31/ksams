@@ -1,10 +1,10 @@
 version: '2'
 services:
     ksams-test-postgresql:
-        image: postgres:9.6.5
+        image: postgres:11.21-alpine
         environment:
             - POSTGRES_DB=test
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=
+            - POSTGRES_USER=test
+            - POSTGRES_PASSWORD=p0stgr3s
         ports:
-            - 5432:5432
+            - "5432:5432"
