@@ -1,7 +1,7 @@
 package be.chesteric31.ksams.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 data class ArmorVersionAttack(
