@@ -54,4 +54,3 @@ tasks.named("bootBuildImage") {
 	imageName = 'ksams:1.0.0'
 }
 
-jib.to.image='ericbinard/ksams'
