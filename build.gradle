@@ -6,6 +6,7 @@ plugins {
 	id 'org.jetbrains.kotlin.jvm' version '1.8.22'
 	id 'org.jetbrains.kotlin.plugin.spring' version '1.8.22'
 	id 'net.researchgate.release' version '3.0.2'
+	id 'com.google.cloud.tools.jib' version '3.3.2'
 }
 
 group = 'be.chesteric31'
@@ -14,11 +15,6 @@ version = '1.0.0'
 java {
 	sourceCompatibility = '17'
 }
-
-repositories {
-	mavenCentral()
-}
-
 
 repositories {
 	mavenCentral()
@@ -53,3 +49,9 @@ release {
 		requireBranch.set('master')
 	}
 }
+
+tasks.named("bootBuildImage") {
+	imageName = 'ksams:1.0.0'
+}
+
+jib.to.image='ericbinard/ksams'
