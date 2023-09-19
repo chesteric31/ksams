@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/prod
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  #Disabling contextual LOB creation as createClob() method threw error
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+  data:
+    rest:
+      basePath: /api
+  config:
+    activate:
+      on-profile: prod
+server:
+  port: 8081
