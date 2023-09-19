@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'be.chesteric31'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0'
 
 java {
 	sourceCompatibility = '17'
