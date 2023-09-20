@@ -10,7 +10,7 @@ plugins {
 }
 
 group = 'be.chesteric31'
-version = '1.0.0'
+version = '1.0.1'
 
 java {
 	sourceCompatibility = '17'
@@ -48,9 +48,5 @@ release {
 	git {
 		requireBranch.set('master')
 	}
-}
-
-tasks.named("bootBuildImage") {
-	imageName = 'ksams:1.0.0'
 }
 
