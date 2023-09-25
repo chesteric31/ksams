@@ -1,0 +1,9 @@
+${AnsiColor.YELLOW}    __ __${AnsiColor.DEFAULT}
+${AnsiColor.YELLOW}   / //_/${AnsiColor.DEFAULT}_________ _____ ___  _____
+${AnsiColor.YELLOW}  / ,<  ${AnsiColor.DEFAULT}/ ___/ __ `/ __ `__ \/ ___/
+${AnsiColor.YELLOW} / /| |${AnsiColor.DEFAULT}(__  ) /_/ / / / / / (__  )
+${AnsiColor.YELLOW}/_/ |_/${AnsiColor.DEFAULT}____/\__,_/_/ /_/ /_/____/
+
+----------------------------------
+Artifact Version: ${application.version}
+Spring Boot Version: ${spring-boot.version}
