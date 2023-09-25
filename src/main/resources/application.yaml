@@ -15,7 +15,9 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-
+  output:
+    ansi:
+      enabled: always
 cloudinary:
   cloudName: ksams
   apiSecret: VuuLhGtP9qGbzz0mZqZjRsfccQc
