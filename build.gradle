@@ -14,7 +14,7 @@ group = 'be.chesteric31'
 version = '1.0.6'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
