@@ -28,7 +28,7 @@ dependencies {
 	implementation('org.jetbrains.kotlin:kotlin-reflect')
 	implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
 	implementation('org.flywaydb:flyway-core')
-	implementation('com.cloudinary:cloudinary-http44:1.22.1')
+	implementation('com.cloudinary:cloudinary-http44:1.38.0')
 	runtimeOnly('org.postgresql:postgresql')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('io.projectreactor:reactor-test')
