@@ -2,7 +2,6 @@ package be.chesteric31.ksams.web
 
 import be.chesteric31.ksams.domain.ArmorCategory
 import be.chesteric31.ksams.service.ArmorCategoryService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.created
 import org.springframework.http.ResponseEntity.ok
@@ -11,7 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 @RestController
 @RequestMapping("/api/v2/categories")
-class ArmorCategoryController(@Autowired val service : ArmorCategoryService) {
+class ArmorCategoryController(val service : ArmorCategoryService) {
 
     @GetMapping(value = ["/"])
     @ResponseBody

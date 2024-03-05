@@ -3,15 +3,14 @@ package be.chesteric31.ksams.service
 import be.chesteric31.ksams.domain.ArmorVersion
 import com.cloudinary.Cloudinary
 import com.cloudinary.utils.ObjectUtils
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
 
 @Service("armorVersionService")
-class ArmorVersionServiceImpl(@Autowired val repository: ArmorVersionRepository,
-                              @Autowired val armorRepository: ArmorRepository,
-                              @Autowired val cloudinary: Cloudinary) : ArmorVersionService {
+class ArmorVersionServiceImpl(val repository: ArmorVersionRepository,
+                              val armorRepository: ArmorRepository,
+                              val cloudinary: Cloudinary) : ArmorVersionService {
 
     override fun uploadArmorVersionImage(image: MultipartFile, armorName: String, armorVersionName: String): URI {
         val uploadResult = cloudinary.uploader().upload(image.bytes, ObjectUtils.emptyMap())

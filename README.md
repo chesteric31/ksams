@@ -12,5 +12,3 @@ This project is a Kotlin API to manage all Saint Seiya Armors.
 ## Build a docker image
 
 - Run `./gradlew jib --image=ericbinard/ksams:x.y.z -Djib.to.auth.username=username '-Djib.to.auth.password=password'`
-
- 
