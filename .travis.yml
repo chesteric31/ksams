@@ -6,4 +6,4 @@ jdk:
 services:
   - postgresql
 addons:
-  postgresql: "16"
+  postgresql: "11"
