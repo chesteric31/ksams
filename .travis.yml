@@ -1,9 +1,9 @@
 before_script:
-  - psql -c 'create database test;' -U postgres
+  - psql -c 'create database travis_ci_test;' -U postgres
 language: java
 jdk:
   - openjdk17
 services:
   - postgresql
 addons:
-  postgresql: "11"
+  postgresql: "16"
