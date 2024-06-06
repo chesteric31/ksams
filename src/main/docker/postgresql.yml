@@ -1,7 +1,7 @@
 version: '2'
 services:
     ksams-postgresql:
-        image: postgres:11.21-alpine
+        image: postgres:16.3-alpine3.20
         environment:
             - POSTGRES_DB=dev
             - POSTGRES_USER=eric
