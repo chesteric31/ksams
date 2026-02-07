@@ -3,14 +3,13 @@ package be.chesteric31.ksams.web
 import be.chesteric31.ksams.domain.ArmorCategory
 import be.chesteric31.ksams.service.ArmorCategoryService
 import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.created
-import org.springframework.http.ResponseEntity.ok
+import org.springframework.http.ResponseEntity.*
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest
 
 @RestController
 @RequestMapping("/api/v2/categories")
-class ArmorCategoryController(val service : ArmorCategoryService) {
+class ArmorCategoryController(val service: ArmorCategoryService) {
 
     @GetMapping(value = ["/"])
     @ResponseBody
@@ -23,7 +22,7 @@ class ArmorCategoryController(val service : ArmorCategoryService) {
     fun get(@PathVariable id: Long): ResponseEntity<ArmorCategory>? {
         val category = service.findById(id)
         if (!category.isPresent) {
-            return ResponseEntity.notFound().build()
+            return notFound().build()
         }
         return ok(category.get())
     }
@@ -36,22 +35,21 @@ class ArmorCategoryController(val service : ArmorCategoryService) {
         if (id != 0L) {
             return ok(savedCategory)
         }
-        val location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedCategory.id)
-                .toUri()
+        val location = fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(savedCategory.id)
+            .toUri()
         return created(location).build()
     }
 
     @DeleteMapping("/{id}")
     @ResponseBody
-    fun delete(@PathVariable id: Long) : ResponseEntity<Any> {
+    fun delete(@PathVariable id: Long): ResponseEntity<Any> {
         val category = service.findById(id)
         if (!category.isPresent) {
-            return ResponseEntity.notFound().build()
+            return notFound().build()
         }
         service.delete(category.get())
-        return ResponseEntity.noContent().build()
+        return noContent().build()
     }
 }

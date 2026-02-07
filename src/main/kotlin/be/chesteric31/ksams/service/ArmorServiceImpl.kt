@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service("armorService")
-class ArmorServiceImpl(@Autowired val repository: ArmorRepository,
-                       @Autowired val categoryRepository: ArmorCategoryRepository,
-                       @Autowired val cloudinary: Cloudinary) : ArmorService {
+class ArmorServiceImpl(
+    @Autowired val repository: ArmorRepository,
+    @Autowired val categoryRepository: ArmorCategoryRepository,
+    @Autowired val cloudinary: Cloudinary
+) : ArmorService {
 
     override fun findAllWithImageThumb(scaleHeight: String, scaleWidth: String): List<Armor> {
         val all = this.findAll()
@@ -40,12 +42,14 @@ class ArmorServiceImpl(@Autowired val repository: ArmorRepository,
 
     private fun scaleImage(categoryName: String, image: String, scaleHeight: String, scaleWidth: String): String {
         val fileName = image.substring(image.lastIndexOf("/") + 1, image.length)
-        //imageTag("audugxb5exmdlcksf7bm.png");
         return cloudinary
-                .url()
-                .transformation(Transformation<Transformation<out Transformation<*>>?>().height(scaleHeight)!!.width(scaleWidth).crop("thumb"))
-                .secure(true)
-                .generate("/" + categoryName.lowercase() + "/" + fileName)
+            .url()
+            .transformation(
+                Transformation<Transformation<out Transformation<*>>?>().height(scaleHeight)!!.width(scaleWidth)
+                    .crop("thumb")
+            )
+            .secure(true)
+            .generate("/" + categoryName.lowercase() + "/" + fileName)
     }
 
 }

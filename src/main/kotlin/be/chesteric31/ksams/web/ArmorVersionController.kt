@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest
 
 @RestController
 @RequestMapping("/api/v2/versions")
@@ -20,13 +21,16 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
 
     @PostMapping("/upload")
     @ResponseBody
-    fun save(@RequestParam armorName: String,
-             @RequestParam armorVersionName: String,
-             @RequestParam image: MultipartFile): ResponseEntity<String> {
+    fun save(
+        @RequestParam armorName: String,
+        @RequestParam armorVersionName: String,
+        @RequestParam image: MultipartFile
+    ): ResponseEntity<String> {
         when {
             !image.isEmpty -> {
                 return created(service.uploadArmorVersionImage(image, armorName, armorVersionName)).build()
             }
+
             else -> return ResponseEntity.badRequest().build()
         }
     }
@@ -39,11 +43,10 @@ class ArmorVersionController(@Autowired val service: ArmorVersionService) {
         if (id != 0L) {
             return ok(savedVersion)
         }
-        val location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedVersion.id)
-                .toUri()
+        val location = fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(savedVersion.id)
+            .toUri()
         return created(location).build()
     }
 
