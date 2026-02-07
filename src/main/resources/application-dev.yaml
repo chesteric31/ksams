@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/dev
+    url: jdbc:postgresql://localhost:5434/dev
     username: eric
     password: 3r1c
   #Disabling contextual LOB creation as createClob() method threw error
