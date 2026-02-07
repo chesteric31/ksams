@@ -1,60 +1,33 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-	id 'org.springframework.boot' version '3.3.0'
-	id 'io.spring.dependency-management' version '1.1.5'
-	id 'org.jetbrains.kotlin.jvm' version '2.0.0'
-	id 'org.jetbrains.kotlin.plugin.spring' version '2.0.0'
-	id 'net.researchgate.release' version '3.0.2'
-	id 'com.google.cloud.tools.jib' version '3.4.0'
-	id 'org.openrewrite.rewrite' version '6.15.1'
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.5'
+    id 'org.jetbrains.kotlin.jvm' version '2.0.0'
+    id 'org.jetbrains.kotlin.plugin.spring' version '2.0.0'
+    id 'net.researchgate.release' version '3.0.2'
+    id 'com.google.cloud.tools.jib' version '3.4.0'
 }
 
 group = 'be.chesteric31'
 version = '1.1.0'
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation('org.springframework.boot:spring-boot-starter-actuator')
-	implementation('org.springframework.boot:spring-boot-starter-hateoas')
-	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-	implementation('org.jetbrains.kotlin:kotlin-reflect')
-	implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
-	implementation('org.flywaydb:flyway-core')
-	implementation('org.flywaydb:flyway-database-postgresql')
-	implementation('com.cloudinary:cloudinary-http44:1.38.0')
-	runtimeOnly('org.postgresql:postgresql')
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	testImplementation('io.projectreactor:reactor-test')
-	testImplementation('org.junit.jupiter:junit-jupiter:5.10.2')
-    testImplementation('org.junit.jupiter:junit-jupiter-api:5.10.2')
-    rewrite('org.openrewrite.recipe:rewrite-spring:5.5.0')
-}
-
-tasks.withType(KotlinCompile) {
-	kotlinOptions {
-		freeCompilerArgs += '-Xjsr305=strict'
-		jvmTarget = '21'
-	}
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
-release {
-	git {
-		requireBranch.set('master')
-	}
-}
-
-rewrite {
-	activeRecipe("org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_2")
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.boot:spring-boot-starter-hateoas')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.jetbrains.kotlin:kotlin-reflect')
+    implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
+    implementation('org.flywaydb:flyway-core')
+    implementation('org.flywaydb:flyway-database-postgresql')
+    implementation('com.cloudinary:cloudinary-http5:2.3.2')
+    runtimeOnly('org.postgresql:postgresql')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('io.projectreactor:reactor-test')
 }
