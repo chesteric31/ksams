@@ -1,4 +1,5 @@
-# ksams [![Build Status](https://travis-ci.org/chesteric31/ksams.svg?branch=master)](https://travis-ci.org/chesteric31/ksams)
+# ksams
+
 Kotlin Saint Seiya Armors Management System
 -------------------------------------------
 This project is a Kotlin API to manage all Saint Seiya Armors.
@@ -9,6 +10,27 @@ This project is a Kotlin API to manage all Saint Seiya Armors.
 - Run the app via `./gradlew bootRun --args='--spring.profiles.active=dev'`
 - Go to https://localhost:8081/api/v2/armors/
 
-## Build a docker image
+## Build and push Docker image
 
-- Run `./gradlew jib --image=ericbinard/ksams:x.y.z -Djib.to.auth.username=username '-Djib.to.auth.password=password'`
+This project uses [Jib](https://github.com/GoogleContainerTools/jib) to build optimized Docker images without a Docker daemon.
+
+### Using Docker credentials helper (recommended)
+
+```bash
+./gradlew jib --image=ericbinard/ksams:x.y.z
+```
+
+### Using environment variables
+
+```bash
+export JIB_TO_AUTH_USERNAME=your_username
+export JIB_TO_AUTH_PASSWORD=your_password
+./gradlew jib --image=ericbinard/ksams:x.y.z
+```
+
+### Build locally without pushing
+
+```bash
+./gradlew jibDockerBuild --image=ericbinard/ksams:x.y.z
+```
+
